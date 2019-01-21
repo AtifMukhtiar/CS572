@@ -17,10 +17,10 @@ class ResponseJson {
 
     getAllData() {
         if (responseArray.length > 0) {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, responseArray);
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, responseArray);
             return response;
         } else {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, {});
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, {});
             return response;
         }
     }
@@ -33,10 +33,10 @@ class ResponseJson {
             }
         });
         if (idGrade === undefined) {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, {});
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, {});
             return response;
         } else {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, idGrade);
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, idGrade);
             return response;
         }
     }
@@ -44,7 +44,12 @@ class ResponseJson {
     getPostData(data) {
         course = data;
         responseArray.push(course);
-        response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, responseArray);
+        response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, responseArray);
+        return response;
+    }
+
+    getPostError(message) {
+        response.getResponse(Keys.Inetegers.ERROR, message, {});
         return response;
     }
 
@@ -59,11 +64,11 @@ class ResponseJson {
         });
 
         if (idGrade === undefined) {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, {});
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, {});
             return response;
         } else {
             responseArray[itemPosition] = data;
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, responseArray);
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, responseArray);
             return response;
         }
     }
@@ -78,11 +83,11 @@ class ResponseJson {
 
         console.log(idGrade)
         if (idGrade === undefined) {
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, {});
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, {});
             return response;
         } else {
             responseArray = responseArray.filter(grade => grade.ID != idGrade);
-            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.DESCRIPTION, responseArray.length == 0 ? {} : responseArray);
+            response.getResponse(Keys.Inetegers.STATUS, Keys.Strings.SUCCESS, responseArray.length == 0 ? {} : responseArray);
             return response;
         }
 

@@ -1,10 +1,13 @@
 const Keys = {
     Strings: {
-        DESCRIPTION: "success",
+        SUCCESS: "success",
+        JSON_ERROR:"JSON format is not correct !"
+
     },
 
     Inetegers: {
-        STATUS: 200
+        STATUS: 200,
+        ERROR: 400
     }
 };
 
