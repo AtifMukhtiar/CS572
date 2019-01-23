@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 var express = require('express');
-var router = express.Router({caseSensitive:false});
+var router = express.Router();
 let response;
 /* GET users listing. */
 router.get('/', function (req, res, next) {
