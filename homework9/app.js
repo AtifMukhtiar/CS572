@@ -5,16 +5,14 @@ var cookieParser = require('cookie-parser');
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 
-const DBConnection = require('./db/DBConnection');
-const dbConnection = new DBConnection();
-
+const MongoClient = require('db').MongoClient;
+const client = new MongoClient("mongodb://localhost:27017");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-let queryRouter = require('./routes/Queries');
+
 
 var app = express();
-const helmet = require('helmet');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,28 +25,18 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(helmet.hsts({
-    directives: {}
-}));
-
-app.use(helmet.hpkp({
-    maxAge: 7776000,
-    sha256s: ['AbCdEf123=', 'ZyXwVu456=']
-}));
-
-app.use('/', dbConnectionHandler, indexRouter);
+app.use(function (req, res, next) {
+    let db = client.db('mwa');
+    req.db = db;
+    return next();
+});
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/queries', queryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
 });
-
-function dbConnectionHandler(req, res, next) {
-    req.dbCollection = dbConnection.getCollection();
-    return next();
-}
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -60,8 +48,5 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-app.listen(4000, () => {
-    console.log("Listening on 4000")
-});
+app.listen(3000, () => console.log("Listening"));
 module.exports = app;
